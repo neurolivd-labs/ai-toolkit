@@ -1,0 +1,6 @@
+[submodule "claude-code/skills/superpowers"]
+	path = claude-code/skills/superpowers
+	url = https://github.com/obra/superpowers.git
+[submodule "claude-code/skills/anthropic-official"]
+	path = claude-code/skills/anthropic-official
+	url = https://github.com/anthropics/skills.git
