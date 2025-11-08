@@ -103,56 +103,181 @@ git push
 ## Included Skills
 
 ### Superpowers (obra/superpowers)
-Battle-tested core skills for development workflows:
+Battle-tested core skills for professional development workflows. These enforce rigorous engineering practices to prevent common pitfalls.
 
-**Testing:**
-- `test-driven-development` - TDD workflows
-- `condition-based-waiting` - Smart waiting strategies
-- `testing-anti-patterns` - Avoid common testing mistakes
+#### Testing Skills
 
-**Debugging:**
-- `systematic-debugging` - Methodical debugging approach
-- `root-cause-tracing` - Find the real issue
-- `verification-before-completion` - Ensure fixes work
-- `defense-in-depth` - Robust error handling
+**`test-driven-development`**
+- **What it does:** Enforces strict TDD red-green-refactor cycle - write failing test first, watch it fail, then write minimal code to pass
+- **Core principle:** NO production code without a failing test first. If you didn't watch the test fail, you don't know it tests the right thing
+- **When to use:** Always - for any feature, bugfix, or refactoring. Violations of "just this once" lead to unverified code
+- **Why it matters:** Tests-after verify "what does this do?"; tests-first answer "what should this do?" - prevents implementation bias
 
-**Collaboration:**
-- `brainstorming` - Ideation workflows
-- `writing-plans` - Planning features
-- `executing-plans` - Implementation workflows
-- `dispatching-parallel-agents` - Concurrent task management
-- `requesting-code-review` - Request reviews
-- `receiving-code-review` - Handle review feedback
-- `using-git-worktrees` - Advanced git workflows
-- `finishing-a-development-branch` - Complete features cleanly
-- `subagent-driven-development` - Agent-based development
+**`condition-based-waiting`**
+- **What it does:** Replace arbitrary timeouts with event-based waiting strategies that check actual conditions
+- **When to use:** Async operations, UI testing, network requests - anywhere you're tempted to add `sleep(1000)`
+- **Why it matters:** Arbitrary timeouts are either too short (flaky tests) or too long (slow tests). Condition-based waiting is both reliable and fast
 
-**Meta:**
-- `writing-skills` - Create new skills
-- `sharing-skills` - Distribute skills
-- `testing-skills-with-subagents` - Test skills
-- `using-superpowers` - Guide to using these skills
+**`testing-anti-patterns`**
+- **What it does:** Identifies and prevents common testing mistakes that reduce test value
+- **Covers:** Mocking over-use, testing implementation vs behavior, brittle selectors, god tests
+- **Why it matters:** Bad tests give false confidence and break on valid refactoring
+
+#### Debugging Skills
+
+**`systematic-debugging`**
+- **What it does:** Four-phase framework (root cause investigation → pattern analysis → hypothesis testing → implementation) that ensures understanding before attempting fixes
+- **Core principle:** NO fixes without root cause investigation first. Random fixes waste time and create new bugs
+- **When to use:** ANY bug, test failure, unexpected behavior, build error - especially when under pressure or "quick fix" seems obvious
+- **Process:** Read errors carefully, reproduce consistently, gather evidence at component boundaries, trace data flow, then fix root cause not symptom
+- **Why it matters:** Systematic approach = 15-30 min to fix; random fixes = 2-3 hours thrashing. First-time fix rate: 95% vs 40%
+
+**`root-cause-tracing`**
+- **What it does:** Backward tracing technique to find where bad values originate in deep call stacks
+- **How it works:** Start at error point, trace upward through callers until finding the source, fix at source not symptom
+- **Integration:** Required sub-skill for systematic-debugging Phase 1 Step 5
+
+**`verification-before-completion`**
+- **What it does:** Gate function that requires running verification commands and seeing evidence before making ANY completion claims
+- **Core principle:** Evidence before claims, always. No completion claims without fresh verification evidence
+- **When to use:** Before ANY success/completion claim, commit, PR, or task completion
+- **Why it matters:** Prevents shipping broken code, builds trust. "I don't believe you" = trust broken
+- **The gate:** Identify verification command → Run it → Read full output → Verify result → Only then claim status
+
+**`defense-in-depth`**
+- **What it does:** Adds validation and error handling at multiple system layers to prevent cascading failures
+- **When to use:** After finding root cause, implement safeguards so similar issues can't occur elsewhere
+- **Complements:** systematic-debugging - use after fixing to prevent recurrence
+
+#### Collaboration Skills
+
+**`brainstorming`**
+- **What it does:** Refines rough ideas into fully-formed designs through collaborative questioning, alternative exploration, and incremental validation
+- **Process:** Understand project context → Ask questions one at a time → Explore 2-3 approaches with trade-offs → Present design in 200-300 word sections, validating each
+- **When to use:** Before writing code or implementation plans - when creating or developing ideas
+- **Don't use:** During clear "mechanical" implementation processes
+- **Outputs:** Design document in `docs/plans/YYYY-MM-DD-<topic>-design.md`
+
+**`writing-plans`**
+- **What it does:** Creates detailed, actionable implementation plans that break down complex features into manageable steps
+- **When to use:** After design is validated, before starting implementation
+- **Works with:** brainstorming (for design) → writing-plans (for implementation roadmap) → executing-plans (for doing the work)
+
+**`executing-plans`**
+- **What it does:** Systematic approach to implementing planned features, maintaining focus and tracking progress
+- **When to use:** During implementation phase after plan is written
+- **Ensures:** Each step completed before moving to next, plan updated as discoveries made
+
+**`dispatching-parallel-agents`**
+- **What it does:** Dispatches multiple Claude agents to investigate and fix independent problems concurrently
+- **When to use:** 3+ independent failures that can be fixed without shared state (different test files, different subsystems)
+- **Process:** Identify independent domains → Create focused agent tasks → Dispatch in parallel → Review and integrate
+- **Don't use when:** Failures are related, need full system context, or agents would interfere
+- **Real impact:** From debugging session: 6 failures across 3 files, 3 agents in parallel, zero conflicts, massive time savings
+
+**`requesting-code-review`** & **`receiving-code-review`**
+- **What they do:** Patterns for effective code review collaboration
+- **Requesting:** How to prepare PRs, write descriptions, highlight decision points
+- **Receiving:** How to process feedback, ask clarifying questions, incorporate changes
+
+**`using-git-worktrees`**
+- **What it does:** Advanced git workflow using worktrees for isolated workspaces per feature/bugfix
+- **Benefits:** Work on multiple branches simultaneously without stashing, clean separation, easy context switching
+
+**`finishing-a-development-branch`**
+- **What it does:** Complete checklist for properly finishing features - tests pass, docs updated, clean commits, ready to merge
+- **Prevents:** Premature "done" claims, forgotten cleanup, incomplete features
+
+**`subagent-driven-development`**
+- **What it does:** Pattern for breaking work into focused sub-tasks handled by specialized agents
+- **When to use:** Large features that can be divided into independent components
+
+#### Meta Skills
+
+**`writing-skills`**
+- **What it does:** Guide for creating new effective skills - structure, YAML frontmatter, clear triggers, focused scope
+- **When to use:** Creating custom skills for your workflow
+
+**`sharing-skills`**
+- **What it does:** Best practices for distributing skills across teams via git, plugins, or repositories
+- **Covers:** Documentation, versioning, team adoption
+
+**`testing-skills-with-subagents`**
+- **What it does:** Framework for validating that skills work as intended using subagents
+- **Ensures:** Skills trigger correctly, provide value, don't conflict
+
+**`using-superpowers`**
+- **What it does:** Meta-guide to understanding and effectively leveraging the entire superpowers skill library
+- **Start here:** If new to superpowers, read this first
 
 ### Anthropic Official (anthropics/skills)
-Official skills from Anthropic:
+Official skills from Anthropic covering creative tools, development utilities, and enterprise workflows.
 
-**Creative & Design:**
-- `algorithmic-art` - Generative art with p5.js
-- `canvas-design` - Visual art in PNG/PDF
-- `slack-gif-creator` - Animated GIFs for Slack
+#### Creative & Design Skills
 
-**Development:**
-- `artifacts-builder` - Complex HTML artifacts
-- `mcp-builder` - Create MCP servers
-- `webapp-testing` - Playwright testing
+**`algorithmic-art`**
+- **What it does:** Creates generative art using p5.js with seeded randomness, flow fields, and particle systems
+- **Outputs:** Interactive canvas artwork with controllable parameters
+- **Use cases:** Data visualization, creative coding, procedural graphics
 
-**Enterprise:**
-- `brand-guidelines` - Anthropic brand styling
-- `internal-comms` - Status reports, newsletters, FAQs
-- `theme-factory` - Professional themes
+**`canvas-design`**
+- **What it does:** Visual art generation in PNG and PDF formats
+- **Features:** Custom dimensions, color palettes, composition tools
+- **Use cases:** Diagrams, illustrations, design mockups
 
-**Document Processing:**
-- DOCX, PDF, PPTX, XLSX manipulation with advanced features
+**`slack-gif-creator`**
+- **What it does:** Animated GIF creation optimized for Slack's size/format requirements
+- **Features:** Frame control, timing, compression optimization
+- **Use cases:** Team communication, visual explanations, reaction GIFs
+
+#### Development Skills
+
+**`artifacts-builder`**
+- **What it does:** Complex HTML artifact creation using React and Tailwind CSS
+- **Features:** Interactive components, modern styling, self-contained artifacts
+- **Use cases:** Prototypes, demos, interactive documentation
+
+**`mcp-builder`**
+- **What it does:** Comprehensive guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services
+- **Process:** Deep research & planning → Implementation → Review & refine → Create evaluations
+- **Covers:** Agent-centric design, tool optimization for limited context, input validation (Pydantic/Zod), error handling, pagination, evaluation creation
+- **Supports:** Python (FastMCP) and Node/TypeScript implementations
+- **Why it matters:** Quality MCP servers enable LLMs to accomplish real-world tasks through well-designed external tool access
+
+**`webapp-testing`**
+- **What it does:** Toolkit for testing local web applications using Playwright - verify frontend functionality, debug UI behavior, capture screenshots
+- **Features:** Server lifecycle management, reconnaissance-then-action pattern, DOM inspection, screenshot capture
+- **Supports:** Static HTML and dynamic webapps with multiple servers
+- **Key pattern:** Navigate → wait for networkidle → inspect → identify selectors → execute actions
+- **Helper scripts:** `with_server.py` manages single or multiple servers automatically
+
+#### Enterprise & Communication Skills
+
+**`brand-guidelines`**
+- **What it does:** Applies Anthropic's official brand styling guidelines to documents and communications
+- **Covers:** Colors, typography, voice, formatting standards
+- **Use cases:** Official communications, presentations, marketing materials
+
+**`internal-comms`**
+- **What it does:** Templates and best practices for status reports, newsletters, FAQs, and team documentation
+- **Features:** Structured formats, clarity guidelines, distribution patterns
+- **Use cases:** Team updates, project documentation, knowledge sharing
+
+**`theme-factory`**
+- **What it does:** Professional theme generation for presentations, documents, and visual materials
+- **Features:** 10 pre-set themes plus custom theme builder
+- **Use cases:** Presentations, reports, consistent visual identity
+
+#### Document Processing Skills
+
+**`document-skills`**
+- **What it does:** Advanced manipulation of DOCX, PDF, PPTX, and XLSX files
+- **Features:**
+  - **DOCX:** Tracked changes, comments, styles, tables
+  - **PDF:** Form handling, text extraction, annotations
+  - **PPTX:** Slide creation, layouts, charts
+  - **XLSX:** Data analysis, formulas, charts, formatting
+- **Use cases:** Report generation, data processing, document automation, business intelligence
 
 ## Syncing Across Machines
 
